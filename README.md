@@ -10,4 +10,4 @@ ToDo:
 
 
 Problem:
-    Having trouble with broken API and Flask. I did nothing.
+    Having trouble with broken API and Flask(I might use Django again). I did nothing.
