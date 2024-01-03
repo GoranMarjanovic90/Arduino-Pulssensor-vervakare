@@ -76,12 +76,21 @@ void loop() {
     Serial.println("♥ A HeartBeat Happened!");
     Serial.print("BPM: ");
     Serial.println(beatsPerMinute);
+    
+    // Send BPM over serial
+    Serial.print("BPM=");
+    Serial.println(beatsPerMinute);
   }
 
   pulseSignal = pulseSensor.getLatestSample();
   pulseSignal = 1023 - pulseSignal;
   pulseSignal = pulseSignal / 128;
   pulseSignal = constrain(pulseSignal, minY, maxY);
+  
+  // Send pulseSignal over serial
+  Serial.print("PulseSignal=");
+  Serial.println(pulseSignal);
+
   advanceLEDplotter();
   plotter.renderBitmap(frame, 8, 12);
 
