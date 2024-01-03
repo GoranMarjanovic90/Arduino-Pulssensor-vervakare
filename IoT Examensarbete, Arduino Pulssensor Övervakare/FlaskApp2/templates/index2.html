@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <!-- Include a chart library, e.g., Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Data Visualization</h1>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        // Function to update chart with data
+        async function updateChart() {
+            const response = await fetch('/get_latest_data');
+            const data = await response.json();
+
+            // Update the chart with the retrieved data
+            // Modify this part based on the chart library you choose
+            // Example using Chart.js:
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: 'Data Series',
+                        data: Object.values(data),
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        // Call the updateChart function on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateChart();
+            // Optionally, set an interval to refresh the chart periodically
+            setInterval(updateChart, 5000);  // Refresh every 5 seconds
+        });
+    </script>
+</body>
+</html>
