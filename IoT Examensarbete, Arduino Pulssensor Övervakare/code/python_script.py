@@ -1,6 +1,7 @@
 import asyncio
 import uuid
-import serial 
+import serial
+import requests
 from azure.iot.device.aio import IoTHubDeviceClient
 from azure.iot.device import Message
 
@@ -15,12 +16,10 @@ async def main():
 
         print("IoT Hub device sending periodic messages, press Ctrl-C to exit")
 
-        ser = serial.Serial('COM4', 115200)  
+        ser = serial.Serial('COM4', 115200)
 
         while True:
-
             pulse_sensor_data = ser.readline().decode().strip()
-
 
             msg_txt_formatted = f"{{\"pulseSensorData\": {pulse_sensor_data}}}"
             message = Message(msg_txt_formatted)
@@ -29,12 +28,20 @@ async def main():
             message.content_encoding = "utf-8"
             message.content_type = "application/json"
 
-           
             print("Sending message: %s" % message.data)
             try:
                 await client.send_message(message)
             except Exception as ex:
                 print("Error sending message from device: {}".format(ex))
+
+
+            try:
+                response = requests.post('http://127.0.0.1:5000/receive_data', data={'pulse_sensor_data': pulse_sensor_data})
+                response.raise_for_status()
+                print(f"Data sent to Flask server. Server response: {response.text}")
+            except requests.exceptions.RequestException as e:
+                print(f"Error sending data to Flask server: {e}")
+
             await asyncio.sleep(1)
 
     except Exception as iothub_error:
