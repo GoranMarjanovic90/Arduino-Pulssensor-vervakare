@@ -5,7 +5,7 @@ import requests
 from azure.iot.device.aio import IoTHubDeviceClient
 from azure.iot.device import Message
 
-CONNECTION_STRING = "HostName=hubarduino.azure-devices.net;DeviceId=arduinorev4;SharedAccessKey=XMW4t8iAMDzUZ9gGHIcS5z6Andr50iRXEAIoTGMqb1Y="
+CONNECTION_STRING = ""
 
 MESSAGE_TIMEOUT = 10000
 
