@@ -5,9 +5,12 @@ import requests
 from azure.iot.device.aio import IoTHubDeviceClient
 from azure.iot.device import Message
 
+
 CONNECTION_STRING = ""
 
+
 MESSAGE_TIMEOUT = 10000
+
 
 async def main():
     try:
