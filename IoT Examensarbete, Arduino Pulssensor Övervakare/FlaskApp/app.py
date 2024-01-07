@@ -14,7 +14,7 @@ with open(json_file_path, 'r') as file:
     data = [json.loads(line) for line in file]
 
 
-@app.route('/path/to/app/')
+@app.route('/path/to/app,/')
 def index():
     return render_template('index.html', data=data)
 
@@ -34,5 +34,6 @@ def custom_path(custom_path):
 if __name__ == '__main__':
     app.run(debug=True)
     
-     
+    
+    
 # https://open.spotify.com/track/1klMdOiawDp93BwvSaYghi?si=8438b53ba83e4e88

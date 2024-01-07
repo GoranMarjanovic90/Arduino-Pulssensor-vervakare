@@ -5,30 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BPM Visualization</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: #fff;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #fff;
+            width: 100%;
+            box-shadow: 0 4px 2px -2px gray;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        #bpm-plot {
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <h1>BPM Visualization</h1>
+    <header>
+        <h1>BPM Visualization</h1>
+    </header>
     <div id="bpm-plot"></div>
     <script>
+        // Your existing JavaScript code for fetching and plotting data
         fetch('/data')
             .then(response => response.json())
             .then(data => {
                 const bpmValues = data.map(entry => entry.Body.bpm);
                 const timestamps = data.map(entry => entry.EnqueuedTimeUtc);
 
-
                 const trace = {
                     x: timestamps,
                     y: bpmValues,
                     type: 'scatter',
                     mode: 'lines',
-                    name: 'BPM'
+                    name: 'BPM',
+                    line: { color: '#3498db' } // Adjust line color
                 };
 
                 const layout = {
                     title: 'BPM Over Time',
-                    xaxis: { title: 'Timestamp' },
-                    yaxis: { title: 'BPM' }
+                    xaxis: {
+                        title: 'Timestamp',
+                        titlefont: { size: 16 }
+                    },
+                    yaxis: {
+                        title: 'BPM',
+                        titlefont: { size: 16 }
+                    },
+                    font: { color: '#333' } // Adjust text color
                 };
 
                 Plotly.newPlot('bpm-plot', [trace], layout);
