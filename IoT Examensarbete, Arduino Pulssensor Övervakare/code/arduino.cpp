@@ -89,17 +89,3 @@ void loop() {
 
   delay(100);
 }
-
-void advanceLEDplotter() {
-  for (int y = 0; y <= maxY; y++) {
-    for (int x = 0; x <= maxX - 1; x++) {
-      if (frame[y][x + 1] == 1) {
-        frame[y][x] = 1;
-        frame[y][x + 1] = 0;
-      } else {
-        frame[y][x] = 0;
-      }
-    }
-  }
-  frame[pulseSignal][maxX] = 1;
-}

@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Visualization</title>
+    <title>BPM Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Data Visualization</h1>
-    <p id="bpm">BPM: <span id="bpm-value">-</span></p>
-    <p id="pulse">Pulse Signal: <span id="pulse-value">-</span></p>
-
+    <h1>BPM Visualization</h1>
+    <div id="bpm-plot"></div>
     <script>
-      
-        async function updateData() {
-            try {
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const bpmValues = data.map(entry => entry.Body.bpm);
+                const timestamps = data.map(entry => entry.EnqueuedTimeUtc);
 
-                const response = await fetch('http://127.0.0.1:5000/get_latest_data');
-                const data = await response.json();
 
-                document.getElementById('bpm-value').innerText = data.bpm || '-';
-                document.getElementById('pulse-value').innerText = data.pulse_signal || '-';
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-        updateData();
-        setInterval(updateData, 5000);
+                const trace = {
+                    x: timestamps,
+                    y: bpmValues,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'BPM'
+                };
+
+                const layout = {
+                    title: 'BPM Over Time',
+                    xaxis: { title: 'Timestamp' },
+                    yaxis: { title: 'BPM' }
+                };
+
+                Plotly.newPlot('bpm-plot', [trace], layout);
+            });
     </script>
 </body>
 </html>
